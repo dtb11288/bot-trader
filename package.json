@@ -1,0 +1,23 @@
+{
+  "name": "bot-trader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Binh",
+  "license": "ISC",
+  "dependencies": {
+    "bitmex-realtime-api": "^0.2.6",
+    "minimist": "^1.2.0",
+    "node-fetch": "^2.1.2",
+    "node-telegram-bot-api": "^0.30.0",
+    "ramda": "^0.25.0",
+    "technicalindicators": "^1.1.10",
+    "winston": "^2.4.1",
+    "xstream": "^11.2.0"
+  },
+  "devDependencies": {}
+}

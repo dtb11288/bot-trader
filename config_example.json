@@ -1,0 +1,25 @@
+{
+  "log": {
+    "level": "debug"
+  },
+  "bitmex": {
+    "key": "",
+    "secret": "",
+    "simulate": true
+  },
+  "telegram": {
+    "enable": false,
+    "chat_id": "",
+    "token": ""
+  },
+  "bot": {
+    "pairs": ["XBTUSD"],
+    "margin": 50,
+    "stake_amount": 0.001,
+    "quantity": 100,
+    "max_trades": 10,
+    "profit": 1,
+    "stop_loss": 5,
+    "intervals": ["1m"]
+  }
+}
