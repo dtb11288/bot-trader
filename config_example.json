@@ -13,13 +13,15 @@
     "token": ""
   },
   "bot": {
-    "pairs": ["XBTUSD"],
-    "margin": 50,
-    "stake_amount": 0.001,
-    "quantity": 100,
-    "max_trades": 10,
-    "profit": 1,
-    "stop_loss": 5,
-    "intervals": ["1m"]
+    "pairs": {
+      "XBTUSD": {
+        "quantity": 100,
+        "margin": 50,
+        "max_trades": 10,
+        "stop_loss": 5,
+        "profit": 1
+      }
+    },
+    "intervals": ["1m", "5m", "1h"]
   }
 }

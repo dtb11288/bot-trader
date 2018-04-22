@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "node tests/backtest.js"
+    "test": "node test/backtest.js"
+  },
+  "nodemonConfig": {
+    "ignore": ["test/*"]
   },
   "author": "Binh",
   "license": "ISC",

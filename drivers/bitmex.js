@@ -5,7 +5,7 @@ const qs = require('qs')
 const fetch = require('node-fetch')
 const {
   compose, over, lensProp, reverse, prop, cond, isEmpty, curry,
-  assoc, T, unless
+  assoc, T, unless, tap, keys, pipe, map
 } = require('ramda')
 const { propEq, equals, createHeaders, createSignature } = require('../lib/utils')
 
@@ -55,9 +55,12 @@ module.exports = config => {
   client.on('error', sendNext('error'))
   client.addStream('*', 'announcement', sendNext('announcement'))
 
-  const init = config => () => {
-    const { pairs, intervals } = config
-    pairs.forEach(pair => {
+  const init = config => () => pipe(
+    tap(sendNext('config')),
+    prop('pairs'),
+    keys,
+    map(pair => {
+      const { intervals } = config
       client.addStream(pair, 'position', sendNext('position'))
 
       getOrders(sendRequest, { pair })
@@ -76,8 +79,7 @@ module.exports = config => {
           client.addStream(pair, tableName, compose(sendNext('chart'), wrapHistory))
         }))
     })
-    return sendNext('config', config)
-  }
+  )(config)
 
   const wrapRequest = (fun, type, ...args) => () => fun(sendRequest, ...args)
     .then(sendNext(type))
