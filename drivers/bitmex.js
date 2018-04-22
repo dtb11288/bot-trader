@@ -1,14 +1,13 @@
 const xs = require('xstream').default
 const log = require('../lib/log')
 const BitMEXClient = require('bitmex-realtime-api')
-const crypto = require('crypto')
 const qs = require('qs')
 const fetch = require('node-fetch')
 const {
   compose, over, lensProp, reverse, prop, cond, isEmpty, curry,
   assoc, T, unless
 } = require('ramda')
-const { propEq, equals } = require('../lib/utils')
+const { propEq, equals, createHeaders, createSignature } = require('../lib/utils')
 
 module.exports = config => {
   const { key, secret, simulate } = config
@@ -29,17 +28,8 @@ module.exports = config => {
     const expires = new Date().getTime() + (60 * 1000)
     const query = method === 'GET' ? `${isEmpty(data) ? '' : '?'}${qs.stringify(data)}` : ''
     const body = method !== 'GET' ? JSON.stringify(data) : ''
-    const signature = crypto
-      .createHmac('sha256', secret)
-      .update(method + rootAPI + api + query + expires + body)
-      .digest('hex')
-    const headers = {
-      'content-type': 'application/json',
-      'accept': 'application/json',
-      'api-expires': expires,
-      'api-key': key,
-      'api-signature': signature
-    }
+    const signature = createSignature(secret, method + rootAPI + api + query + expires + body)
+    const headers = createHeaders(expires, key, signature)
     const url = `${baseURL}${rootAPI}${api}${query}`
     const request = unless(
       propEq('method', 'GET'),
